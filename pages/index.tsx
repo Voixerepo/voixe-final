@@ -1,42 +1,51 @@
 import Head from 'next/head'
+import Image from 'next/image'
 import Link from 'next/link'
+import NavMinimal from '../components/NavMinimal'
+
+const images = [
+  '/images/matte1.jpg',
+  '/images/matte2.jpg',
+  '/images/white1.jpg',
+  '/images/white2.jpg',
+  '/images/editorial1.jpg',
+  '/images/editorial2.jpg',
+]
 
 export default function Home() {
   return (
-    <main className="flex flex-col items-center justify-center min-h-screen bg-white text-neutral-900">
+    <main className="min-h-screen bg-white flex flex-col items-center justify-center text-center">
       <Head>
         <title>VOIXE — To express who you are without saying a word.</title>
-        <meta
-          name="description"
-          content="VOIXE — Minimal, expressive, and confident fashion. To express who you are without saying a word."
-        />
       </Head>
 
-      {/* Top section */}
-      <section className="flex flex-col items-center justify-center text-center mt-20 px-4">
-        <h1 className="text-6xl font-extrabold tracking-wider">VOIXE</h1>
-        <p className="italic text-neutral-600 text-lg mt-3">
+      {/* Logo and tagline */}
+      <div className="mt-12 mb-8">
+        <h1 className="text-6xl md:text-8xl font-extrabold tracking-[0.3em] animate-fadeIn">
+          VOIXE
+        </h1>
+        <p className="italic text-neutral-600 mt-3 text-lg animate-fadeInSlow">
           “To express who you are without saying a word.”
         </p>
+      </div>
 
-        <div className="mt-10 flex gap-4">
-          <Link
-            href="/shop"
-            className="px-6 py-3 rounded-2xl bg-neutral-900 text-white text-sm tracking-wide hover:bg-neutral-800 transition"
-          >
-            Shop Now
-          </Link>
-          <Link
-            href="/lookbook"
-            className="px-6 py-3 rounded-2xl border border-neutral-900 text-sm hover:bg-neutral-100 transition"
-          >
-            Lookbook
-          </Link>
-        </div>
-      </section>
+      {/* Image grid */}
+      <div className="grid grid-cols-2 md:grid-cols-6 gap-1 w-full max-w-6xl px-2">
+        {images.map((src, index) => (
+          <div key={index} className="overflow-hidden group">
+            <Image
+              src={src}
+              alt={`VOIXE look ${index + 1}`}
+              width={500}
+              height={700}
+              className="object-cover h-[60vh] w-full grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-500 ease-out"
+            />
+          </div>
+        ))}
+      </div>
 
-      {/* Background accent */}
-      <div className="absolute inset-0 -z-10 opacity-5 bg-[radial-gradient(circle_at_center,_black,_transparent_70%)]" />
+      {/* Bottom navigation */}
+      <NavMinimal />
     </main>
   )
 }
