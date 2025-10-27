@@ -4,45 +4,72 @@ export type Product = {
   price: number
   description: string
   tagline?: string
-  images: string[]   // main -> others
+  images: string[]
   variants: { label: string }[]
   sku: string
-  edition: 'Matte Black' | 'Classic White'
+  edition: 'Matte Black' | 'Classic White' | 'Core' | 'Drop'
+  color?: string
 }
 
 export const products: Product[] = [
   {
     slug: 'voixe-tee-matte-black',
-    name: 'VOIXE Tee — Matte Black Edition',
+    name: 'VOIXE Tee — Matte Black',
     edition: 'Matte Black',
     price: 68,
     sku: 'VX-MB-TEE-001',
     tagline: 'To express who you are without saying a word.',
-    description:
-      'Premium heavyweight cotton, ribbed collar, relaxed fit. Small chest print, statement back print. Designed for the luxury streetwear line.',
+    description: 'Premium heavyweight cotton, ribbed collar, relaxed fit. Small chest print, statement back print. Part of VOIXE luxury street line.',
     images: [
-      // Placeholder model shots — swap with your own files later
-      'https://images.unsplash.com/photo-1520975922284-9d6b9b5e2fba?q=80&w=1600&auto=format&fit=crop',
-      'https://images.unsplash.com/photo-1516826957135-700dedea698c?q=80&w=1600&auto=format&fit=crop',
-      'https://images.unsplash.com/photo-1516822003754-cca485356ecb?q=80&w=1600&auto=format&fit=crop'
+      '/images/matte1.jpg',
+      '/images/matte2.jpg',
+      '/images/editorial1.jpg'
     ],
     variants: [{label:'S'},{label:'M'},{label:'L'},{label:'XL'}],
+    color: 'Black'
   },
   {
     slug: 'voixe-tee-classic-white',
-    name: 'VOIXE Tee — Classic White Edition',
+    name: 'VOIXE Tee — Classic White',
     edition: 'Classic White',
     price: 58,
     sku: 'VX-CW-TEE-001',
     tagline: 'To express who you are without saying a word.',
-    description:
-      'Soft midweight cotton with a clean front and tasteful VOIXE back print. Essential line for daily wear.',
+    description: 'Soft midweight cotton with clean chest mark and tasteful VOIXE back print. Your daily essential piece.',
     images: [
-      'https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=1600&auto=format&fit=crop',
-      'https://images.unsplash.com/photo-1520975940469-35aef67f7e96?q=80&w=1600&auto=format&fit=crop',
-      'https://images.unsplash.com/photo-1503341455253-b2e723bb3dbb?q=80&w=1600&auto=format&fit=crop'
+      '/images/white1.jpg',
+      '/images/white2.jpg',
+      '/images/editorial2.jpg'
     ],
     variants: [{label:'S'},{label:'M'},{label:'L'},{label:'XL'}],
+    color: 'White'
+  },
+  {
+    slug: 'voixe-hoodie-core-black',
+    name: 'VOIXE Core Hoodie — Black',
+    edition: 'Core',
+    price: 110,
+    sku: 'VX-CR-HDY-001',
+    description: 'Heavy fleece, double-layer hood, brushed interior. Minimal chest mark, oversized silhouette.',
+    images: [
+      '/images/editorial3.jpg',
+      '/images/matte2.jpg'
+    ],
+    variants: [{label:'S'},{label:'M'},{label:'L'},{label:'XL'}],
+    color: 'Black'
+  },
+  {
+    slug: 'voixe-sweatpants-core-gray',
+    name: 'VOIXE Core Sweatpants — Gray',
+    edition: 'Core',
+    price: 98,
+    sku: 'VX-CR-SWP-001',
+    description: 'Tapered fit with elastic cuffs, heavyweight cotton, tonal VOIXE print.',
+    images: [
+      '/images/editorial4.jpg'
+    ],
+    variants: [{label:'S'},{label:'M'},{label:'L'},{label:'XL'}],
+    color: 'Gray'
   }
 ]
 
