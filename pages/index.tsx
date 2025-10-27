@@ -15,17 +15,17 @@ export default function Home() {
       {/* Hero: brand + tagline */}
       <section className="text-center px-6">
         <h1
-          className="animate-fadeUp delay-100 font-extrabold tracking-[0.28em] text-6xl md:text-8xl"
+          className="animate-fadeUp-slow delay-100 font-extrabold tracking-[0.28em] text-6xl md:text-8xl"
           style={{ letterSpacing: '0.28em' }}
         >
           VOIXE
         </h1>
 
-        <p className="animate-fadeUp delay-250 italic text-neutral-600 text-lg md:text-xl mt-3">
+        <p className="animate-fadeUp delay-400 italic text-neutral-600 text-lg md:text-xl mt-3">
           “To express who you are without saying a word.”
         </p>
 
-        <div className="animate-fadeUp delay-500 mt-10 flex gap-4 justify-center">
+        <div className="animate-fadeUp delay-700 mt-10 flex gap-4 justify-center">
           <Link
             href="/shop"
             className="px-7 py-3 rounded-full bg-neutral-900 text-white text-sm tracking-wide hover:bg-neutral-800 transition"
@@ -42,7 +42,7 @@ export default function Home() {
       </section>
 
       {/* Tiny footer accent */}
-      <div className="animate-fadeUp delay-500 absolute bottom-8 text-[11px] md:text-xs text-neutral-400 tracking-widest">
+      <div className="animate-fadeUp delay-700 absolute bottom-8 text-[11px] md:text-xs text-neutral-400 tracking-widest">
         © {new Date().getFullYear()} VOIXE Studio
       </div>
     </main>
