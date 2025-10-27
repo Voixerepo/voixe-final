@@ -1,6 +1,10 @@
 import Link from "next/link"
+import { useRouter } from "next/router"
 
 export default function Navbar(){
+  const router = useRouter()
+  if (router.pathname === "/") return null  // hides navbar on home
+
   return (
     <header className="w-full border-b">
       <div className="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
