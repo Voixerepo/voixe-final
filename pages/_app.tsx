@@ -1,6 +1,12 @@
 import type { AppProps } from 'next/app'
 import Head from 'next/head'
-import '@/styles/globals.css'
+
+// Global CSS (relative path, no alias)
+import '../styles/globals.css'
+
+// Shared layout components (relative paths)
+import Navbar from '../components/Navbar'
+import Footer from '../components/Footer'
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
@@ -13,7 +19,10 @@ export default function App({ Component, pageProps }: AppProps) {
         <meta property="og:type" content="website" />
         <meta name="twitter:card" content="summary_large_image" />
       </Head>
+
+      <Navbar />
       <Component {...pageProps} />
+      <Footer />
     </>
   )
 }
