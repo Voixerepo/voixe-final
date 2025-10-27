@@ -1,0 +1,2 @@
+import Link from 'next/link'
+export default function NotFound(){return (<main style={{minHeight:'100vh', display:'flex', alignItems:'center', justifyContent:'center', textAlign:'center', padding:'0 20px'}}><div><p style={{color:'#666'}}>404</p><h1 style={{fontSize:'2rem', fontWeight:600, marginTop:8}}>Page not found</h1><p style={{marginTop:8, color:'#555'}}>The link might be broken or the page may have moved.</p><Link href="/" style={{display:'inline-flex', marginTop:16, background:'#111', color:'#fff', padding:'10px 16px', borderRadius:12}}>Go home</Link></div></main>) }
