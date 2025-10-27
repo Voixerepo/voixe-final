@@ -1,61 +1,155 @@
-/* ===========================
-   VOIXE — Smoother Hero Animations
-   =========================== */
-/* Respect users who prefer reduced motion */
-@media (prefers-reduced-motion: no-preference) {
-  /* Gentle fade-up with smoother easing and longer duration */
-  @keyframes fadeUpSmooth {
-    0% {
-      opacity: 0;
-      transform: translateY(36px);
-      filter: blur(2px);
-    }
-    40% {
-      opacity: 0.55;
-      transform: translateY(14px);
-      filter: blur(1px);
-    }
-    100% {
-      opacity: 1;
-      transform: translateY(0);
-      filter: blur(0);
-    }
-  }
+/* ===========================================================
+   VOIXE GLOBAL STYLES — Tailwind + Brand Customization
+   =========================================================== */
 
-  /* Utility classes */
-  .animate-fadeUp {
+/* -----------------------------
+   Tailwind Core Layers
+   ----------------------------- */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* -----------------------------
+   Base Typography & Body Setup
+   ----------------------------- */
+html,
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: #ffffff;
+  color: #111111;
+  margin: 0;
+  padding: 0;
+  scroll-behavior: smooth;
+}
+
+/* Optional: smoother text rendering */
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* -----------------------------
+   Hero Animations (Fade-Up)
+   ----------------------------- */
+@keyframes fadeUp {
+  0% {
     opacity: 0;
-    will-change: opacity, transform, filter;
-    animation-name: fadeUpSmooth;
-    animation-duration: 1100ms;                 /* slightly longer */
-    animation-timing-function: cubic-bezier(.19,.74,.24,1); /* luxe ease */
-    animation-fill-mode: forwards;
+    transform: translateY(40px);
+    filter: blur(2px);
   }
-
-  /* Stagger helpers (use any) */
-  .delay-100  { animation-delay: 120ms; }
-  .delay-250  { animation-delay: 260ms; }
-  .delay-400  { animation-delay: 420ms; }
-  .delay-550  { animation-delay: 560ms; }
-  .delay-700  { animation-delay: 720ms; }
-  .delay-900  { animation-delay: 900ms; }
-
-  /* Optional: slightly slower variant for large elements */
-  .animate-fadeUp-slow {
-    opacity: 0;
-    will-change: opacity, transform, filter;
-    animation-name: fadeUpSmooth;
-    animation-duration: 1350ms;
-    animation-timing-function: cubic-bezier(.19,.74,.24,1);
-    animation-fill-mode: forwards;
+  60% {
+    opacity: 0.7;
+    transform: translateY(10px);
+    filter: blur(1px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
   }
 }
 
-/* Subtle TopBar shadow (unchanged) */
+.animate-fadeUp {
+  opacity: 0;
+  animation: fadeUp 1s ease-out forwards;
+}
+
+@keyframes fadeUpSlow {
+  0% {
+    opacity: 0;
+    transform: translateY(60px);
+    filter: blur(3px);
+  }
+  60% {
+    opacity: 0.7;
+    transform: translateY(15px);
+    filter: blur(1px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+
+.animate-fadeUp-slow {
+  opacity: 0;
+  animation: fadeUpSlow 1.2s ease-out forwards;
+}
+
+/* Delay helpers for animation staggering */
+.delay-100 { animation-delay: 0.1s; }
+.delay-250 { animation-delay: 0.25s; }
+.delay-400 { animation-delay: 0.4s; }
+.delay-500 { animation-delay: 0.5s; }
+.delay-700 { animation-delay: 0.7s; }
+.delay-900 { animation-delay: 0.9s; }
+.delay-1000 { animation-delay: 1s; }
+
+/* -----------------------------
+   Hover Lift for Buttons/Images
+   ----------------------------- */
+.hover-lift {
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+.hover-lift:hover {
+  transform: translateY(-4px);
+  opacity: 0.95;
+}
+
+/* -----------------------------
+   Subtle TopBar Shadow
+   ----------------------------- */
 .topbar-shadow {
-  box-shadow: 0 1px 4px rgba(0,0,0,.04);
-  transition: box-shadow .3s ease;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+  transition: box-shadow 0.3s ease;
 }
 .topbar-shadow:hover {
-  box-shadow: 0 1px 6px rgba(0,0,0,.06);
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.06);
 }
+
+/* -----------------------------
+   Editorial Image Hover (Grid)
+   ----------------------------- */
+.image-hover {
+  transition: all 0.8s cubic-bezier(.19,.74,.24,1);
+  filter: grayscale(100%);
+}
+.image-hover:hover {
+  filter: grayscale(0%);
+  transform: scale(1.045);
+}
+
+/* -----------------------------
+   Footer Styling
+   ----------------------------- */
+footer {
+  border-color: rgba(0, 0, 0, 0.08);
+}
+footer a {
+  transition: color 0.25s ease;
+}
+footer a:hover {
+  color: #111111;
+}
+
+/* -----------------------------
+   Miscellaneous Utility Helpers
+   ----------------------------- */
+::selection {
+  background-color: #111111;
+  color: #ffffff;
+}
+
+img {
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+button:focus,
+a:focus {
+  outline: none;
+  box-shadow: 0 0 0 1px #11111133;
+}
+
+/* End of globals.css */
