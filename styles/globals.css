@@ -1,16 +1,76 @@
+/* ==========================================
+   VOIXE Global & Animation Styles
+   ========================================== */
+
+/* Tailwind layers must always come first */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* ===== VOIXE hero animations ===== */
-@media (prefers-reduced-motion: no-preference) {
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(28px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-  .animate-fadeUp   { animation: fadeUp 900ms ease-out forwards; }
-  .delay-100        { animation-delay: 100ms; }
-  .delay-250        { animation-delay: 250ms; }
-  .delay-500        { animation-delay: 500ms; }
+/* Base Body Styles */
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: #ffffff;
+  color: #111111;
+  margin: 0;
+  padding: 0;
 }
 
+/* ==========================================
+   Fade-Up Reveal Animations (VOIXE Hero)
+   ========================================== */
+@media (prefers-reduced-motion: no-preference) {
+  @keyframes fadeUp {
+    0% {
+      opacity: 0;
+      transform: translateY(40px);
+      filter: blur(2px);
+    }
+    60% {
+      opacity: 0.7;
+      transform: translateY(10px);
+      filter: blur(1px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+      filter: blur(0);
+    }
+  }
+
+  .animate-fadeUp {
+    opacity: 0;
+    animation: fadeUp 1s ease-out forwards;
+  }
+
+  /* Staggered delays for smooth sequencing */
+  .delay-100 { animation-delay: 0.1s; }
+  .delay-250 { animation-delay: 0.25s; }
+  .delay-400 { animation-delay: 0.4s; }
+  .delay-500 { animation-delay: 0.5s; }
+  .delay-700 { animation-delay: 0.7s; }
+  .delay-1000 { animation-delay: 1s; }
+}
+
+/* Optional hover lift for buttons or images */
+.hover-lift {
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+.hover-lift:hover {
+  transform: translateY(-4px);
+  opacity: 0.9;
+}
+
+/* ==========================================
+   Subtle TopBar Shadow
+   ========================================== */
+.topbar-shadow {
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+  transition: box-shadow 0.3s ease;
+}
+
+/* When you hover over the bar or scroll slightly, 
+   the shadow appears a little stronger (optional) */
+.topbar-shadow:hover {
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.06);
+}
