@@ -1,12 +1,9 @@
 import type { AppProps } from 'next/app'
 import Head from 'next/head'
-
-// Global CSS (relative path, no alias)
 import '../styles/globals.css'
 
-// Shared layout components (relative paths)
-import Navbar from '../components/Navbar'
-import Footer from '../components/Footer'
+// ⬇️ Import the new top bar
+import TopBar from '../components/TopBar'
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
@@ -20,9 +17,11 @@ export default function App({ Component, pageProps }: AppProps) {
         <meta name="twitter:card" content="summary_large_image" />
       </Head>
 
-      <Navbar />
+      {/* --- Sticky navigation bar (hidden on '/') --- */}
+      <TopBar />
+
+      {/* --- Page content --- */}
       <Component {...pageProps} />
-      <Footer />
     </>
   )
 }
