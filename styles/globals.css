@@ -2,18 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-@keyframes fadeInSlow {
-  from { opacity: 0; transform: translateY(30px); }
-  to { opacity: 1; transform: translateY(0); }
+/* ===== VOIXE hero animations ===== */
+@media (prefers-reduced-motion: no-preference) {
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(28px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .animate-fadeUp   { animation: fadeUp 900ms ease-out forwards; }
+  .delay-100        { animation-delay: 100ms; }
+  .delay-250        { animation-delay: 250ms; }
+  .delay-500        { animation-delay: 500ms; }
 }
 
-.animate-fadeIn {
-  animation: fadeIn 1s ease-out forwards;
-}
-.animate-fadeInSlow {
-  animation: fadeInSlow 1.5s ease-out forwards;
-}
