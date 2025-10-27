@@ -1,34 +1,18 @@
-/* ==========================================
-   VOIXE Global & Animation Styles
-   ========================================== */
-
-/* Tailwind layers must always come first */
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-/* Base Body Styles */
-body {
-  font-family: 'Inter', sans-serif;
-  background-color: #ffffff;
-  color: #111111;
-  margin: 0;
-  padding: 0;
-}
-
-/* ==========================================
-   Fade-Up Reveal Animations (VOIXE Hero)
-   ========================================== */
+/* ===========================
+   VOIXE — Smoother Hero Animations
+   =========================== */
+/* Respect users who prefer reduced motion */
 @media (prefers-reduced-motion: no-preference) {
-  @keyframes fadeUp {
+  /* Gentle fade-up with smoother easing and longer duration */
+  @keyframes fadeUpSmooth {
     0% {
       opacity: 0;
-      transform: translateY(40px);
+      transform: translateY(36px);
       filter: blur(2px);
     }
-    60% {
-      opacity: 0.7;
-      transform: translateY(10px);
+    40% {
+      opacity: 0.55;
+      transform: translateY(14px);
       filter: blur(1px);
     }
     100% {
@@ -38,39 +22,40 @@ body {
     }
   }
 
+  /* Utility classes */
   .animate-fadeUp {
     opacity: 0;
-    animation: fadeUp 1s ease-out forwards;
+    will-change: opacity, transform, filter;
+    animation-name: fadeUpSmooth;
+    animation-duration: 1100ms;                 /* slightly longer */
+    animation-timing-function: cubic-bezier(.19,.74,.24,1); /* luxe ease */
+    animation-fill-mode: forwards;
   }
 
-  /* Staggered delays for smooth sequencing */
-  .delay-100 { animation-delay: 0.1s; }
-  .delay-250 { animation-delay: 0.25s; }
-  .delay-400 { animation-delay: 0.4s; }
-  .delay-500 { animation-delay: 0.5s; }
-  .delay-700 { animation-delay: 0.7s; }
-  .delay-1000 { animation-delay: 1s; }
+  /* Stagger helpers (use any) */
+  .delay-100  { animation-delay: 120ms; }
+  .delay-250  { animation-delay: 260ms; }
+  .delay-400  { animation-delay: 420ms; }
+  .delay-550  { animation-delay: 560ms; }
+  .delay-700  { animation-delay: 720ms; }
+  .delay-900  { animation-delay: 900ms; }
+
+  /* Optional: slightly slower variant for large elements */
+  .animate-fadeUp-slow {
+    opacity: 0;
+    will-change: opacity, transform, filter;
+    animation-name: fadeUpSmooth;
+    animation-duration: 1350ms;
+    animation-timing-function: cubic-bezier(.19,.74,.24,1);
+    animation-fill-mode: forwards;
+  }
 }
 
-/* Optional hover lift for buttons or images */
-.hover-lift {
-  transition: transform 0.3s ease, opacity 0.3s ease;
-}
-.hover-lift:hover {
-  transform: translateY(-4px);
-  opacity: 0.9;
-}
-
-/* ==========================================
-   Subtle TopBar Shadow
-   ========================================== */
+/* Subtle TopBar shadow (unchanged) */
 .topbar-shadow {
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
-  transition: box-shadow 0.3s ease;
+  box-shadow: 0 1px 4px rgba(0,0,0,.04);
+  transition: box-shadow .3s ease;
 }
-
-/* When you hover over the bar or scroll slightly, 
-   the shadow appears a little stronger (optional) */
 .topbar-shadow:hover {
-  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.06);
+  box-shadow: 0 1px 6px rgba(0,0,0,.06);
 }
