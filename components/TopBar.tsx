@@ -1,10 +1,11 @@
 import Link from "next/link"
 import { useRouter } from "next/router"
+import CartButton from "./CartButton"
 
 export default function TopBar() {
   const { pathname } = useRouter()
 
-  // Hide the top bar on the homepage hero
+  // Keep homepage hero clean — no top bar on "/"
   if (pathname === "/") return null
 
   return (
@@ -14,17 +15,15 @@ export default function TopBar() {
       aria-label="Primary"
     >
       <div className="mx-auto flex h-14 max-w-6xl items-center justify-between px-4">
-        {/* --- Left navigation --- */}
+
+        {/* Left navigation */}
         <nav className="hidden md:flex items-center gap-6 text-xs tracking-wide text-neutral-600">
-          <Link href="/shop" className="hover:text-neutral-900 transition">
-            Shop
-          </Link>
-          <Link href="/lookbook" className="hover:text-neutral-900 transition">
-            Lookbook
-          </Link>
+          <Link href="/shop" className="hover:text-neutral-900 transition">Shop</Link>
+          <Link href="/lookbook" className="hover:text-neutral-900 transition">Lookbook</Link>
+          <Link href="/about" className="hover:text-neutral-900 transition">About</Link>
         </nav>
 
-        {/* --- Center brand --- */}
+        {/* Center brand */}
         <Link
           href="/"
           className="font-semibold tracking-[0.25em] text-sm text-neutral-900"
@@ -34,17 +33,11 @@ export default function TopBar() {
           VOIXE
         </Link>
 
-        {/* --- Right navigation --- */}
+        {/* Right navigation (Verify + Cart) */}
         <nav className="flex items-center gap-6 text-xs tracking-wide text-neutral-600">
-          <Link href="/verify" className="hover:text-neutral-900 transition">
-            Verify
-          </Link>
-          <Link
-            href="/returns"
-            className="hover:text-neutral-900 hidden md:inline transition"
-          >
-            Support
-          </Link>
+          <Link href="/verify" className="hover:text-neutral-900 transition">Verify</Link>
+          {/* Replaced/added instead of “Support” */}
+          <CartButton />
         </nav>
       </div>
     </header>
