@@ -1,107 +1,111 @@
-import { useRouter } from 'next/router'
-import Head from 'next/head'
-import { getProduct } from '../../lib/products'
-import Image from 'next/image'
-import Link from 'next/link'
-import { useState, useMemo } from 'react'
-import { useCart } from '../../components/CartProvider'
+import Head from "next/head"
+import Image from "next/image"
+import { useState } from "react"
+import { useCart } from "../../components/CartProvider"
 
-export default function ProductPage(){
-  const { query, push } = useRouter()
-  const product = getProduct(String(query.slug||''))
-  const { addItem } = useCart()
+type Product = {
+  slug: string
+  name: string
+  price: number
+  images: string[]
+  sizes: string[]
+  description?: string
+}
 
-  const [size, setSize] = useState<string>('M')
-  const [qty, setQty] = useState<number>(1)
+export default function ProductPage({ product }: { product: Product }) {
+  const { addItem, openCart } = useCart()
+  const [size, setSize] = useState(product.sizes?.[0] ?? "M")
+  const [qty, setQty] = useState(1)
 
-  const priceFmt = useMemo(
-    () => new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }),
-    []
-  )
-
-  if(!product) return <main className="max-w-6xl mx-auto px-4 py-12"><p>Loading…</p></main>
-
-  const onAdd = () => {
+  const onAddToBag = () => {
     addItem({
       slug: product.slug,
       name: product.name,
       price: product.price,
       size,
       qty,
-      image: product.images[0],
+      image: product.images?.[0] ?? "/placeholder.jpg",
     })
-    // Go to cart after adding (feel free to change to a toast)
-    push('/cart')
+    // ← Immediately open the slide-in cart drawer
+    openCart()
   }
 
   return (
-    <main className="max-w-6xl mx-auto px-4 py-12">
+    <main className="max-w-6xl mx-auto px-4 py-10">
       <Head><title>{product.name} — VOIXE</title></Head>
 
       <div className="grid lg:grid-cols-2 gap-10">
-        <div className="space-y-4">
-          <div className="aspect-[4/5] rounded-2xl overflow-hidden border">
-            <Image src={product.images[0]} alt={product.name} width={1000} height={1200} className="w-full h-full object-cover"/>
+        {/* Gallery */}
+        <section className="space-y-4">
+          <div className="aspect-[4/5] w-full overflow-hidden rounded-2xl card-shadow">
+            <Image
+              src={product.images?.[0] ?? "/placeholder.jpg"}
+              alt={product.name}
+              width={1200}
+              height={1500}
+              className="w-full h-full object-cover"
+              priority
+            />
           </div>
-          <div className="grid grid-cols-3 gap-4">
-            {product.images.slice(1).map((src, i) => (
-              <div key={i} className="aspect-[4/5] rounded-xl overflow-hidden border">
-                <Image src={src} alt={`${product.name} ${i+2}`} width={600} height={700} className="w-full h-full object-cover"/>
-              </div>
-            ))}
-          </div>
-        </div>
+          {/* Add more thumbnails if you like */}
+        </section>
 
-        <div>
-          <h1 className="text-3xl font-semibold">{product.name}</h1>
-          <p className="text-neutral-600 mt-2">{product.edition}{product.color ? ` · ${product.color}` : ''}</p>
-          <p className="text-2xl mt-4">{priceFmt.format(product.price)}</p>
-          {product.tagline && <p className="italic mt-3 text-neutral-700">“{product.tagline}”</p>}
-          <p className="mt-6 text-neutral-700">{product.description}</p>
+        {/* Info */}
+        <section>
+          <h1 className="text-2xl font-semibold tracking-tight">{product.name}</h1>
+          <p className="mt-1 text-neutral-600">${product.price.toFixed(2)}</p>
 
-          {/* Size */}
+          {/* Size picker */}
           <div className="mt-6">
-            <p className="text-sm font-medium">Size</p>
+            <label className="text-sm font-medium">Size</label>
             <div className="mt-2 flex flex-wrap gap-2">
-              {product.variants.map(v => (
+              {(product.sizes ?? ["S","M","L","XL"]).map(s => (
                 <button
-                  key={v.label}
-                  onClick={()=>setSize(v.label)}
-                  className={`h-10 px-4 rounded-xl border ${size===v.label ? 'bg-neutral-900 text-white' : 'bg-white'}`}>
-                  {v.label}
+                  key={s}
+                  onClick={() => setSize(s)}
+                  className={`h-10 px-4 rounded-xl border text-sm ${
+                    size === s ? "border-neutral-900" : "border-neutral-300 hover:border-neutral-500"
+                  }`}
+                  aria-pressed={size === s}
+                >
+                  {s}
                 </button>
               ))}
             </div>
           </div>
 
-          {/* Quantity */}
+          {/* Qty */}
           <div className="mt-4">
-            <p className="text-sm font-medium">Quantity</p>
+            <label className="text-sm font-medium">Quantity</label>
             <div className="mt-2 inline-flex items-center rounded-xl border">
               <button
-                onClick={()=>setQty(q => Math.max(1, q-1))}
-                className="w-10 h-10 hover:bg-neutral-50"
+                className="w-10 h-10"
+                onClick={() => setQty(q => Math.max(1, q - 1))}
                 aria-label="Decrease quantity"
               >−</button>
-              <span className="w-12 text-center select-none">{qty}</span>
+              <span className="w-12 text-center">{qty}</span>
               <button
-                onClick={()=>setQty(q => Math.min(10, q+1))}
-                className="w-10 h-10 hover:bg-neutral-50"
+                className="w-10 h-10"
+                onClick={() => setQty(q => q + 1)}
                 aria-label="Increase quantity"
               >+</button>
             </div>
           </div>
 
-          {/* Actions */}
+          {/* Add to bag */}
           <div className="mt-6 flex gap-3">
-            <button onClick={onAdd} className="h-11 px-6 rounded-2xl bg-neutral-900 text-white">
-              Add to Cart
+            <button className="btn btn-primary w-full" onClick={onAddToBag}>
+              Add to Bag
             </button>
-            <Link href="/verify" className="h-11 px-6 rounded-2xl border flex items-center">Verify</Link>
           </div>
 
-          <p className="text-xs text-neutral-500 mt-6">SKU: {product.sku}</p>
-        </div>
+          {/* Description */}
+          {product.description && (
+            <p className="mt-6 text-sm text-neutral-600 leading-relaxed">
+              {product.description}
+            </p>
+          )}
+        </section>
       </div>
     </main>
   )
