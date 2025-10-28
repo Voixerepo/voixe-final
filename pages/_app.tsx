@@ -1,7 +1,8 @@
 import type { AppProps } from 'next/app'
 import Head from 'next/head'
-import '../styles/globals.css'
-import TopBar from '../components/TopBar'
+import '../styles/globals.css'              // ← this import is required
+
+import TopBar from '../components/TopBar'   // ok if you have this
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
@@ -9,12 +10,7 @@ export default function App({ Component, pageProps }: AppProps) {
       <Head>
         <meta name="theme-color" content="#0a0a0a" />
         <link rel="icon" href="/favicon.png" />
-        <meta property="og:title" content="VOIXE — To express who you are without saying a word." />
-        <meta property="og:image" content="/og.png" />
-        <meta property="og:type" content="website" />
-        <meta name="twitter:card" content="summary_large_image" />
       </Head>
-
       <TopBar />
       <Component {...pageProps} />
     </>
