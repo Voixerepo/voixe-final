@@ -1,19 +1,8 @@
-/* ===========================================================
-   VOIXE GLOBAL STYLES — Tailwind + Brand Customization
-   =========================================================== */
-
-/* -----------------------------
-   Tailwind Core Layers
-   ----------------------------- */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* -----------------------------
-   Base Typography & Body Setup
-   ----------------------------- */
-html,
-body {
+html, body {
   font-family: 'Inter', sans-serif;
   background-color: #ffffff;
   color: #111111;
@@ -21,135 +10,31 @@ body {
   padding: 0;
   scroll-behavior: smooth;
 }
+* { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
 
-/* Optional: smoother text rendering */
-* {
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
+/* Animations */
+@keyframes fadeUp { 0%{opacity:0;transform:translateY(40px);filter:blur(2px)}
+60%{opacity:.7;transform:translateY(10px);filter:blur(1px)}
+100%{opacity:1;transform:translateY(0);filter:blur(0)} }
+.animate-fadeUp { opacity:0; animation: fadeUp 1s ease-out forwards; }
 
-/* -----------------------------
-   Hero Animations (Fade-Up)
-   ----------------------------- */
-@keyframes fadeUp {
-  0% {
-    opacity: 0;
-    transform: translateY(40px);
-    filter: blur(2px);
-  }
-  60% {
-    opacity: 0.7;
-    transform: translateY(10px);
-    filter: blur(1px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-    filter: blur(0);
-  }
-}
+@keyframes fadeUpSlow { 0%{opacity:0;transform:translateY(60px);filter:blur(3px)}
+60%{opacity:.7;transform:translateY(15px);filter:blur(1px)}
+100%{opacity:1;transform:translateY(0);filter:blur(0)} }
+.animate-fadeUp-slow { opacity:0; animation: fadeUpSlow 1.2s ease-out forwards; }
 
-.animate-fadeUp {
-  opacity: 0;
-  animation: fadeUp 1s ease-out forwards;
-}
+.delay-100{animation-delay:.1s}.delay-250{animation-delay:.25s}.delay-400{animation-delay:.4s}
+.delay-500{animation-delay:.5s}.delay-700{animation-delay:.7s}.delay-900{animation-delay:.9s}.delay-1000{animation-delay:1s}
 
-@keyframes fadeUpSlow {
-  0% {
-    opacity: 0;
-    transform: translateY(60px);
-    filter: blur(3px);
-  }
-  60% {
-    opacity: 0.7;
-    transform: translateY(15px);
-    filter: blur(1px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-    filter: blur(0);
-  }
-}
+.hover-lift { transition: transform .3s ease, opacity .3s ease; }
+.hover-lift:hover { transform: translateY(-4px); opacity: .95; }
 
-.animate-fadeUp-slow {
-  opacity: 0;
-  animation: fadeUpSlow 1.2s ease-out forwards;
-}
+.topbar-shadow { box-shadow: 0 1px 4px rgba(0,0,0,.04); transition: box-shadow .3s ease; }
+.topbar-shadow:hover { box-shadow: 0 1px 6px rgba(0,0,0,.06); }
 
-/* Delay helpers for animation staggering */
-.delay-100 { animation-delay: 0.1s; }
-.delay-250 { animation-delay: 0.25s; }
-.delay-400 { animation-delay: 0.4s; }
-.delay-500 { animation-delay: 0.5s; }
-.delay-700 { animation-delay: 0.7s; }
-.delay-900 { animation-delay: 0.9s; }
-.delay-1000 { animation-delay: 1s; }
+.image-hover { transition: all .8s cubic-bezier(.19,.74,.24,1); filter: grayscale(100%); }
+.image-hover:hover { filter: grayscale(0%); transform: scale(1.045); }
 
-/* -----------------------------
-   Hover Lift for Buttons/Images
-   ----------------------------- */
-.hover-lift {
-  transition: transform 0.3s ease, opacity 0.3s ease;
-}
-.hover-lift:hover {
-  transform: translateY(-4px);
-  opacity: 0.95;
-}
-
-/* -----------------------------
-   Subtle TopBar Shadow
-   ----------------------------- */
-.topbar-shadow {
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
-  transition: box-shadow 0.3s ease;
-}
-.topbar-shadow:hover {
-  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.06);
-}
-
-/* -----------------------------
-   Editorial Image Hover (Grid)
-   ----------------------------- */
-.image-hover {
-  transition: all 0.8s cubic-bezier(.19,.74,.24,1);
-  filter: grayscale(100%);
-}
-.image-hover:hover {
-  filter: grayscale(0%);
-  transform: scale(1.045);
-}
-
-/* -----------------------------
-   Footer Styling
-   ----------------------------- */
-footer {
-  border-color: rgba(0, 0, 0, 0.08);
-}
-footer a {
-  transition: color 0.25s ease;
-}
-footer a:hover {
-  color: #111111;
-}
-
-/* -----------------------------
-   Miscellaneous Utility Helpers
-   ----------------------------- */
-::selection {
-  background-color: #111111;
-  color: #ffffff;
-}
-
-img {
-  user-select: none;
-  -webkit-user-drag: none;
-}
-
-button:focus,
-a:focus {
-  outline: none;
-  box-shadow: 0 0 0 1px #11111133;
-}
-
-/* End of globals.css */
+::selection { background:#111; color:#fff; }
+img { user-select: none; -webkit-user-drag: none; }
+button:focus, a:focus { outline: none; box-shadow: 0 0 0 1px #11111133; }
