@@ -1,3 +1,4 @@
+// components/CartProvider.tsx
 import { createContext, useContext, useEffect, useMemo, useState } from "react"
 
 export type CartItem = {
@@ -19,18 +20,30 @@ type CartContextType = {
   subtotal: number
 }
 
-const CartContext = createContext<CartContextType | null>(null)
+// No-op default so SSR never throws if provider is missing
+const noop = () => {}
+const defaultCtx: CartContextType = {
+  items: [],
+  addItem: noop,
+  removeItem: noop,
+  setQty: noop,
+  clear: noop,
+  count: 0,
+  subtotal: 0,
+}
+
+const CartContext = createContext<CartContextType>(defaultCtx)
 
 export function CartProvider({ children }: { children: React.ReactNode }) {
   const [items, setItems] = useState<CartItem[]>([])
 
-  // load / persist
   useEffect(() => {
     try {
       const raw = localStorage.getItem("voixe_cart")
       if (raw) setItems(JSON.parse(raw))
     } catch {}
   }, [])
+
   useEffect(() => {
     try {
       localStorage.setItem("voixe_cart", JSON.stringify(items))
@@ -67,16 +80,11 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     return { count, subtotal }
   }, [items])
 
-  return (
-    <CartContext.Provider value={{ items, addItem, removeItem, setQty, clear, count, subtotal }}>
-      {children}
-    </CartContext.Provider>
-  )
+  const value: CartContextType = {
+    items, addItem, removeItem, setQty, clear, count, subtotal
+  }
+
+  return <CartContext.Provider value={value}>{children}</CartContext.Provider>
 }
 
-export const useCart = () => {
-  const ctx = useContext(CartContext)
-  if (!ctx) throw new Error("useCart must be used inside <CartProvider>")
-  return ctx
-}
-
+export const useCart = () => useContext(CartContext)
