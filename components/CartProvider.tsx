@@ -1,4 +1,3 @@
-// components/CartProvider.tsx
 import { createContext, useContext, useEffect, useMemo, useState } from "react"
 
 export type CartItem = {
@@ -18,9 +17,14 @@ type CartContextType = {
   clear: () => void
   count: number
   subtotal: number
+  // drawer UI
+  opened: boolean
+  openCart: () => void
+  closeCart: () => void
+  toggleCart: () => void
 }
 
-// No-op default so SSR never throws if provider is missing
+// safe default so SSR never crashes
 const noop = () => {}
 const defaultCtx: CartContextType = {
   items: [],
@@ -30,12 +34,17 @@ const defaultCtx: CartContextType = {
   clear: noop,
   count: 0,
   subtotal: 0,
+  opened: false,
+  openCart: noop,
+  closeCart: noop,
+  toggleCart: noop,
 }
 
 const CartContext = createContext<CartContextType>(defaultCtx)
 
 export function CartProvider({ children }: { children: React.ReactNode }) {
   const [items, setItems] = useState<CartItem[]>([])
+  const [opened, setOpened] = useState(false)
 
   useEffect(() => {
     try {
@@ -43,7 +52,6 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       if (raw) setItems(JSON.parse(raw))
     } catch {}
   }, [])
-
   useEffect(() => {
     try {
       localStorage.setItem("voixe_cart", JSON.stringify(items))
@@ -81,7 +89,11 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   }, [items])
 
   const value: CartContextType = {
-    items, addItem, removeItem, setQty, clear, count, subtotal
+    items, addItem, removeItem, setQty, clear, count, subtotal,
+    opened,
+    openCart: () => setOpened(true),
+    closeCart: () => setOpened(false),
+    toggleCart: () => setOpened(o => !o),
   }
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>
