@@ -1,10 +1,9 @@
-// pages/_app.tsx
 import type { AppProps } from 'next/app'
 import Head from 'next/head'
 import '../styles/globals.css'
-
 import TopBar from '../components/TopBar'
-import { CartProvider } from '../components/CartProvider'  // ← same file as your useCart
+import { CartProvider } from '../components/CartProvider'
+import CartDrawer from '../components/CartDrawer'
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
@@ -14,9 +13,10 @@ export default function App({ Component, pageProps }: AppProps) {
         <link rel="icon" href="/favicon.png" />
       </Head>
 
-      {/* CartProvider MUST wrap TopBar and Component */}
       <CartProvider>
         <TopBar />
+        {/* Drawer lives at root so it works from any page */}
+        <CartDrawer />
         <Component {...pageProps} />
       </CartProvider>
     </>
