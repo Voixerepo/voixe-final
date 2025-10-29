@@ -1,44 +1,36 @@
-import Link from "next/link"
-import { useRouter } from "next/router"
-import CartButton from "./CartButton"
+// components/TopBar.tsx
+import Link from 'next/link'
+import { useCart } from '../context/CartContext'
 
 export default function TopBar() {
-  const { pathname } = useRouter()
-
-  // Keep homepage hero clean — no top bar on "/"
-  if (pathname === "/") return null
+  const { openDrawer, items } = useCart()
 
   return (
-    <header
-      className="sticky top-0 z-50 w-full border-b border-neutral-200 bg-white/80 backdrop-blur-sm supports-[backdrop-filter]:bg-white/60 topbar-shadow"
-      role="navigation"
-      aria-label="Primary"
-    >
-      <div className="mx-auto flex h-14 max-w-6xl items-center justify-between px-4">
+    <header className="w-full">
+      <div className="mx-auto max-w-6xl px-4 py-5 flex items-center justify-between">
+        <Link href="/" className="font-semibold tracking-[0.5em] text-xl">VOIXE</Link>
 
-        {/* Left navigation */}
-        <nav className="hidden md:flex items-center gap-6 text-xs tracking-wide text-neutral-600">
-          <Link href="/shop" className="hover:text-neutral-900 transition">Shop</Link>
-          <Link href="/lookbook" className="hover:text-neutral-900 transition">Lookbook</Link>
-          <Link href="/about" className="hover:text-neutral-900 transition">About</Link>
+        <nav className="hidden md:flex gap-6 tracking-wide">
+          <Link href="/shop">Shop</Link>
+          <Link href="/lookbook">Lookbook</Link>
+          <Link href="/about">About</Link>
+          <Link href="/verify">Verify</Link>
         </nav>
 
-        {/* Center brand */}
-        <Link
-          href="/"
-          className="font-semibold tracking-[0.25em] text-sm text-neutral-900"
-          style={{ letterSpacing: "0.25em" }}
-          aria-label="VOIXE — Home"
-        >
-          VOIXE
-        </Link>
-
-        {/* Right navigation (Verify + Cart) */}
-        <nav className="flex items-center gap-6 text-xs tracking-wide text-neutral-600">
-          <Link href="/verify" className="hover:text-neutral-900 transition">Verify</Link>
-          {/* Replaced/added instead of “Support” */}
-          <CartButton />
-        </nav>
+        <div className="flex items-center gap-4">
+          <button
+            className="relative border px-3 py-2 tracking-wide"
+            onClick={openDrawer}
+            aria-label="Open cart"
+          >
+            Cart
+            {items.length > 0 && (
+              <span className="absolute -top-2 -right-2 text-xs bg-black text-white rounded-full h-5 w-5 grid place-items-center">
+                {items.length}
+              </span>
+            )}
+          </button>
+        </div>
       </div>
     </header>
   )
