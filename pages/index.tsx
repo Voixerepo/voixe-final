@@ -21,10 +21,7 @@ export default function Home() {
 
       {/* HERO */}
       <section className="text-center px-6 mt-16 md:mt-24">
-        <h1
-          className="animate-fadeUp-slow delay-100 font-extrabold text-6xl md:text-8xl tracking-[0.28em]"
-          style={{ letterSpacing: '0.28em' }}
-        >
+        <h1 className="animate-fadeUp-slow delay-100 font-extrabold text-6xl md:text-8xl tracking-[0.28em]" style={{ letterSpacing: '0.28em' }}>
           VOIXE
         </h1>
         <p className="animate-fadeUp delay-400 italic text-neutral-600 text-lg md:text-xl mt-3">
