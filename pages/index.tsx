@@ -1,29 +1,57 @@
-// pages/index.tsx
 import Head from 'next/head'
-import TopBar from '../components/TopBar'
-import CartDrawer from '../components/CartDrawer'
 import Link from 'next/link'
+import Image from 'next/image'
+import FooterMinimal from '../components/FooterMinimal'
 
 export default function Home() {
+  const images = [
+    '/images/matte1.jpg',
+    '/images/white1.jpg',
+    '/images/editorial1.jpg',
+    '/images/editorial2.jpg',
+    '/images/matte2.jpg',
+    '/images/white2.jpg',
+  ]
+
   return (
-    <>
+    <main className="relative min-h-screen bg-white text-neutral-900 overflow-hidden">
       <Head>
         <title>VOIXE — To express who you are without saying a word.</title>
-        <meta name="description" content="VOIXE Studio • Matte Black Edition & Classic White — minimal, expressive, confident."/>
       </Head>
 
-      <TopBar />
-      <CartDrawer />
-
-      <main className="mx-auto max-w-6xl px-4 py-20">
-        <h1 className="text-5xl font-semibold tracking-[0.5em]">VOIXE</h1>
-        <p className="mt-3 italic text-neutral-600">“To express who you are without saying a word.”</p>
-
-        <div className="mt-8 flex gap-3">
-          <Link href="/shop" className="bg-black text-white px-5 py-3">Shop Now</Link>
-          <Link href="/lookbook" className="border px-5 py-3">Lookbook</Link>
+      {/* HERO */}
+      <section className="text-center px-6 mt-16 md:mt-24">
+        <h1
+          className="animate-fadeUp-slow delay-100 font-extrabold text-6xl md:text-8xl tracking-[0.28em]"
+          style={{ letterSpacing: '0.28em' }}
+        >
+          VOIXE
+        </h1>
+        <p className="animate-fadeUp delay-400 italic text-neutral-600 text-lg md:text-xl mt-3">
+          “To express who you are without saying a word.”
+        </p>
+        <div className="animate-fadeUp delay-700 mt-10 flex gap-4 justify-center">
+          <Link href="/shop" className="btn btn-primary hover-lift">Shop Now</Link>
+          <Link href="/lookbook" className="btn btn-outline hover-lift">Lookbook</Link>
         </div>
-      </main>
-    </>
+      </section>
+
+      {/* EDITORIAL GRID */}
+      <section className="mt-16 grid grid-cols-2 md:grid-cols-6 gap-1 w-full max-w-6xl mx-auto px-2">
+        {images.map((src, i) => (
+          <div key={i} className={`overflow-hidden group ${i % 3 === 0 ? 'md:col-span-2' : ''}`}>
+            <Image
+              src={src}
+              alt={`VOIXE editorial ${i+1}`}
+              width={900}
+              height={1200}
+              className="object-cover h-[55vh] w-full image-hover"
+            />
+          </div>
+        ))}
+      </section>
+
+      <FooterMinimal />
+    </main>
   )
 }
