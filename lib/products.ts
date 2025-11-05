@@ -1,4 +1,3 @@
-// lib/products.ts
 export const products = [
   {
     id: 'tee-001',
@@ -7,6 +6,7 @@ export const products = [
     price: 45,
     sizes: ['S', 'M', 'L', 'XL'],
     image: '/images/voixe-tee-white.jpg',
+    description: 'Classic White Edition — minimal, expressive, confident.'
   },
   {
     id: 'tee-002',
@@ -15,7 +15,8 @@ export const products = [
     price: 55,
     sizes: ['S', 'M', 'L', 'XL'],
     image: '/images/voixe-tee-black.jpg',
-  },
+    description: 'Matte Black Edition — premium weight with a luxe hand.'
+  }
 ]
 
 export function getProduct(slug: string) {
