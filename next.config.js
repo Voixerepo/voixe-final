@@ -1,13 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Do NOT set: output: 'export'
-  // If you load external images, add domains here:
+  reactStrictMode: true,
   images: {
-    remotePatterns: [
-      { protocol: 'https', hostname: 'images.unsplash.com' }
-    ]
-  },
-  reactStrictMode: true
+    // Add external hosts if you hotlink photos later
+    remotePatterns: [{ protocol: 'https', hostname: 'images.unsplash.com' }]
+  }
 }
-
 module.exports = nextConfig
