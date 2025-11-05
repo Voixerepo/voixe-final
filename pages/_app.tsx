@@ -1,11 +1,14 @@
-// pages/_app.tsx
 import type { AppProps } from 'next/app'
-import '../styles/globals.css'           // <-- keep this relative path working
-import { CartProvider } from '../context/CartContext'
+import '../styles/globals.css'
+import { CartProvider } from '../components/CartProvider'
+import TopBar from '../components/TopBar'
+import CartDrawer from '../components/CartDrawer'
 
-export default function MyApp({ Component, pageProps }: AppProps) {
+export default function App({ Component, pageProps }: AppProps) {
   return (
     <CartProvider>
+      <TopBar />
+      <CartDrawer />
       <Component {...pageProps} />
     </CartProvider>
   )
