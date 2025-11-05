@@ -7,12 +7,10 @@ export default function CartDrawer() {
 
   return (
     <>
-      {/* Overlay */}
       <div
         className={`fixed inset-0 z-[60] bg-black/40 transition-opacity ${opened ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}
         onClick={closeCart}
       />
-      {/* Panel */}
       <aside
         className="fixed right-0 top-0 z-[70] h-full w-[92vw] max-w-[420px] bg-white voixe-drawer"
         data-open={opened ? "true" : "false"}
