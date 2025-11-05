@@ -17,27 +17,18 @@ type CartContextType = {
   clear: () => void
   count: number
   subtotal: number
-  // drawer UI
   opened: boolean
   openCart: () => void
   closeCart: () => void
   toggleCart: () => void
 }
 
-// safe default so SSR never crashes
 const noop = () => {}
 const defaultCtx: CartContextType = {
   items: [],
-  addItem: noop,
-  removeItem: noop,
-  setQty: noop,
-  clear: noop,
-  count: 0,
-  subtotal: 0,
-  opened: false,
-  openCart: noop,
-  closeCart: noop,
-  toggleCart: noop,
+  addItem: noop, removeItem: noop, setQty: noop, clear: noop,
+  count: 0, subtotal: 0,
+  opened: false, openCart: noop, closeCart: noop, toggleCart: noop,
 }
 
 const CartContext = createContext<CartContextType>(defaultCtx)
@@ -68,6 +59,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       }
       return [...prev, item]
     })
+    setOpened(true)
   }
 
   const removeItem = (slug: string, size: string) =>
