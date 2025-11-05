@@ -1,33 +1,25 @@
-// pages/product/[slug].tsx
 import { useRouter } from 'next/router'
 import Head from 'next/head'
-import TopBar from '../../components/TopBar'
-import CartDrawer from '../../components/CartDrawer'
 import { getProduct } from '../../lib/products'
 import { useState } from 'react'
-import { useCart } from '../../context/CartContext'
+import { useCart } from '../../components/CartProvider'
 
 export default function ProductPage() {
   const { query } = useRouter()
   const slug = String(query.slug || '')
   const product = getProduct(slug)
   const [size, setSize] = useState<string | undefined>(product?.sizes?.[0])
-  const { add } = useCart()
+  const { addItem } = useCart()
 
   if (!product) {
     return (
-      <>
-        <TopBar />
-        <main className="mx-auto max-w-6xl px-4 py-20">Not found.</main>
-      </>
+      <main className="mx-auto max-w-6xl px-4 py-20">Not found.</main>
     )
   }
 
   return (
     <>
       <Head><title>{product.name} — VOIXE</title></Head>
-      <TopBar />
-      <CartDrawer />
 
       <main className="mx-auto max-w-6xl px-4 py-16 grid lg:grid-cols-2 gap-12">
         <img src={product.image} alt={product.name} className="w-full bg-neutral-100 object-cover"/>
@@ -54,10 +46,16 @@ export default function ProductPage() {
 
           <button
             className="mt-8 bg-black text-white px-6 py-3"
-            onClick={() => add({ id: product.id + '-' + (size ?? ''), slug: product.slug, name: product.name, price: product.price, size, image: product.image })}
+            onClick={() => addItem({
+              slug: product.slug, name: product.name, price: product.price, size: size ?? 'M', qty: 1, image: product.image
+            })}
           >
             Add to Bag
           </button>
+
+          {product.description && (
+            <p className="mt-6 text-sm text-neutral-600 leading-relaxed">{product.description}</p>
+          )}
         </div>
       </main>
     </>
