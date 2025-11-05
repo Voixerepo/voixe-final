@@ -59,7 +59,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       }
       return [...prev, item]
     })
-    setOpened(true)
+    setOpened(true) // open drawer after add
   }
 
   const removeItem = (slug: string, size: string) =>
