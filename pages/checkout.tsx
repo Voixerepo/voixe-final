@@ -13,7 +13,6 @@ export default function Checkout() {
         <p className="mt-6 text-neutral-600">Your cart is empty.</p>
       ) : (
         <div className="grid lg:grid-cols-[1fr_360px] gap-10 mt-8">
-          {/* shipping/contact (mock) */}
           <section className="space-y-4">
             <h2 className="font-medium">Contact</h2>
             <input className="w-full border rounded-xl h-11 px-3" placeholder="Email" />
@@ -26,18 +25,12 @@ export default function Checkout() {
               <input className="border rounded-xl h-11 px-3" placeholder="ZIP" />
             </div>
             <h2 className="font-medium mt-6">Payment</h2>
-            <p className="text-sm text-neutral-600">
-              Payments will be enabled soon. For now this is a demo checkout.
-            </p>
-            <button
-              onClick={() => { clear(); alert("Order placed — demo only!") }}
-              className="mt-4 h-11 px-6 rounded-2xl bg-neutral-900 text-white"
-            >
+            <p className="text-sm text-neutral-600">Payments will be enabled soon. For now this is a demo checkout.</p>
+            <button onClick={() => { clear(); alert("Order placed — demo only!") }} className="mt-4 h-11 px-6 rounded-2xl bg-neutral-900 text-white">
               Place Order (Demo)
             </button>
           </section>
 
-          {/* order summary */}
           <aside className="border rounded-2xl p-5 h-fit">
             <h3 className="font-medium mb-3">Order Summary</h3>
             <div className="space-y-2 text-sm">
@@ -52,9 +45,7 @@ export default function Checkout() {
               <span>Subtotal</span>
               <span>${subtotal.toFixed(2)}</span>
             </div>
-            <p className="text-[11px] text-neutral-500 mt-2">
-              Taxes & shipping calculated at fulfillment.
-            </p>
+            <p className="text-[11px] text-neutral-500 mt-2">Taxes & shipping calculated at fulfillment.</p>
           </aside>
         </div>
       )}
