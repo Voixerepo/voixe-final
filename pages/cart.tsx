@@ -1,17 +1,18 @@
 "use client";
 import { useCart } from "../components/CartProvider";
+import Animate from "../components/Animate";
 
 export default function CartPage() {
   const { items, setQty, removeItem, subtotal } = useCart();
 
   return (
     <main className="page-wrap">
-      <h1 className="fade-up" style={{textTransform:"lowercase", fontFamily:"ui-monospace, Menlo, Consolas, monospace"}}>cart</h1>
+      <Animate as="h1" variant="fade-up" className="" >cart</Animate>
 
       {items.length === 0 ? (
         <p>Your cart is empty.</p>
       ) : (
-        <div className="soft-in" style={{border:"1px dotted #bbb"}}>
+        <div className="inview fade-up" style={{border:"1px dotted #bbb"}}>
           {items.map((it, i) => (
             <div key={`${it.slug}-${i}`} style={{display:"grid", gridTemplateColumns:"120px 1fr auto", gap:"1rem", padding:"1rem", borderBottom:"1px dotted #ddd"}}>
               {/* eslint-disable-next-line @next/next/no-img-element */}
