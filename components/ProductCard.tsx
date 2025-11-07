@@ -2,6 +2,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import { useCart } from "./CartProvider";
+import Animate from "./Animate";
 
 type Props = {
   slug: string;
@@ -11,7 +12,13 @@ type Props = {
   sizes?: string[];
 };
 
-export default function ProductCard({ slug, name, price, image, sizes = ["S","M","L","XL"] }: Props) {
+export default function ProductCard({
+  slug,
+  name,
+  price,
+  image,
+  sizes = ["S", "M", "L", "XL"],
+}: Props) {
   const { addItem } = useCart();
   const [activeSize, setActiveSize] = useState<string>("");
 
@@ -23,18 +30,18 @@ export default function ProductCard({ slug, name, price, image, sizes = ["S","M"
       image,
       price,
       size,
-      qty: 1
+      qty: 1,
     });
   };
 
   return (
-    <div className="card fade-up">
+    <Animate variant="slide-up" className="card card-lift">
       <Link href={`/product/${slug}`} className="card-media" aria-label={name}>
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src={image} alt={name} />
       </Link>
 
-      {/* reserved, non-overlapping size strip */}
+      {/* non-overlapping size strip */}
       <div className="size-overlay">
         {sizes.map((s) => (
           <button
@@ -49,9 +56,9 @@ export default function ProductCard({ slug, name, price, image, sizes = ["S","M"
       </div>
 
       <div className="card-body">
-        <div style={{fontWeight:600}}>{name}</div>
+        <div style={{ fontWeight: 600 }}>{name}</div>
         <div>${price.toFixed(2)}</div>
       </div>
-    </div>
+    </Animate>
   );
 }
