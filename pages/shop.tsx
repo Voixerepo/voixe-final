@@ -1,21 +1,35 @@
-import Head from "next/head"
-import ProductCard from "../components/ProductCard"
-import { products } from "../lib/products"
+import ProductCard from "../components/ProductCard";
+
+const demo = [
+  {
+    slug: "tee-classic-white",
+    name: "VOIXE Tee — Classic White",
+    price: 45,
+    image: "/images/tee-white.jpg"
+  },
+  {
+    slug: "tee-matte-black",
+    name: "VOIXE Tee — Matte Black",
+    price: 55,
+    image: "/images/tee-black.jpg"
+  },
+  {
+    slug: "hoodie-studio",
+    name: "VOIXE Studio Hoodie",
+    price: 120,
+    image: "/images/hoodie.jpg"
+  }
+];
 
 export default function Shop() {
   return (
-    <>
-      <Head><title>Shop — VOIXE</title></Head>
-
-      <main className="mx-auto max-w-6xl px-4 py-16">
-        <h1 className="text-3xl font-semibold tracking-tight">Shop</h1>
-
-        <div className="mt-8 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
-          {products.map(p => (
-            <ProductCard key={p.id} id={p.id} />
-          ))}
-        </div>
-      </main>
-    </>
-  )
+    <main className="page-wrap">
+      <h1 className="fade-up" style={{marginBottom:"1rem"}}>Shop</h1>
+      <div className="grid">
+        {demo.map((p) => (
+          <ProductCard key={p.slug} {...p} />
+        ))}
+      </div>
+    </main>
+  );
 }
