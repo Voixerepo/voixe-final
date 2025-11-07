@@ -13,14 +13,14 @@ export type CartItem = {
 type CartContextType = {
   opened: boolean;
   setOpened: (v: boolean) => void;
-  toggleCart: () => void;          // provided
+  toggleCart: () => void;
   items: CartItem[];
   addItem: (item: CartItem) => void;
   removeItem: (index: number) => void;
   setQty: (index: number, qty: number) => void;
   clear: () => void;
   subtotal: number;
-  count: number;                   // provided
+  count: number;
 };
 
 const CartCtx = createContext<CartContextType | null>(null);
@@ -29,7 +29,6 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   const [opened, setOpened] = useState(false);
   const [items, setItems] = useState<CartItem[]>([]);
 
-  // hydrate
   useEffect(() => {
     try {
       const raw = localStorage.getItem("voixe_cart");
@@ -37,7 +36,6 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     } catch {}
   }, []);
 
-  // persist
   useEffect(() => {
     try {
       localStorage.setItem("voixe_cart", JSON.stringify(items));
@@ -57,46 +55,27 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     setOpened(true);
   };
 
-  const removeItem = (index: number) => {
-    setItems((prev) => prev.filter((_, i) => i !== index));
-  };
-
-  const setQty = (index: number, qty: number) => {
+  const removeItem = (index: number) => setItems((prev) => prev.filter((_, i) => i !== index));
+  const setQty = (index: number, qty: number) =>
     setItems((prev) => {
       const clone = [...prev];
       clone[index] = { ...clone[index], qty: Math.max(1, qty) };
       return clone;
     });
-  };
-
   const clear = () => setItems([]);
 
-  const subtotal = useMemo(
-    () => items.reduce((s, it) => s + it.price * it.qty, 0),
-    [items]
-  );
-
-  const count = useMemo(
-    () => items.reduce((n, it) => n + it.qty, 0),
-    [items]
-  );
+  const subtotal = useMemo(() => items.reduce((s, it) => s + it.price * it.qty, 0), [items]);
+  const count = useMemo(() => items.reduce((n, it) => n + it.qty, 0), [items]);
 
   const toggleCart = () => setOpened((v) => !v);
 
-  const value: CartContextType = {
-    opened,
-    setOpened,
-    toggleCart,
-    items,
-    addItem,
-    removeItem,
-    setQty,
-    clear,
-    subtotal,
-    count,
-  };
-
-  return <CartCtx.Provider value={value}>{children}</CartCtx.Provider>;
+  return (
+    <CartCtx.Provider
+      value={{ opened, setOpened, toggleCart, items, addItem, removeItem, setQty, clear, subtotal, count }}
+    >
+      {children}
+    </CartCtx.Provider>
+  );
 }
 
 export function useCart() {
