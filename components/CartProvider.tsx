@@ -1,3 +1,4 @@
+"use client";
 import React, { createContext, useContext, useEffect, useMemo, useState } from "react";
 
 export type CartItem = {
@@ -12,14 +13,14 @@ export type CartItem = {
 type CartContextType = {
   opened: boolean;
   setOpened: (v: boolean) => void;
-  toggleCart: () => void;          // <-- added
+  toggleCart: () => void;          // provided
   items: CartItem[];
   addItem: (item: CartItem) => void;
   removeItem: (index: number) => void;
   setQty: (index: number, qty: number) => void;
   clear: () => void;
   subtotal: number;
-  count: number;                   // <-- added
+  count: number;                   // provided
 };
 
 const CartCtx = createContext<CartContextType | null>(null);
@@ -28,7 +29,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   const [opened, setOpened] = useState(false);
   const [items, setItems] = useState<CartItem[]>([]);
 
-  // hydrate from localStorage
+  // hydrate
   useEffect(() => {
     try {
       const raw = localStorage.getItem("voixe_cart");
@@ -36,7 +37,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     } catch {}
   }, []);
 
-  // persist to localStorage
+  // persist
   useEffect(() => {
     try {
       localStorage.setItem("voixe_cart", JSON.stringify(items));
@@ -56,15 +57,17 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     setOpened(true);
   };
 
-  const removeItem = (index: number) =>
+  const removeItem = (index: number) => {
     setItems((prev) => prev.filter((_, i) => i !== index));
+  };
 
-  const setQty = (index: number, qty: number) =>
+  const setQty = (index: number, qty: number) => {
     setItems((prev) => {
       const clone = [...prev];
       clone[index] = { ...clone[index], qty: Math.max(1, qty) };
       return clone;
     });
+  };
 
   const clear = () => setItems([]);
 
@@ -83,14 +86,14 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   const value: CartContextType = {
     opened,
     setOpened,
-    toggleCart,   // <-- provided
+    toggleCart,
     items,
     addItem,
     removeItem,
     setQty,
     clear,
     subtotal,
-    count,        // <-- provided
+    count,
   };
 
   return <CartCtx.Provider value={value}>{children}</CartCtx.Provider>;
