@@ -1,78 +1,140 @@
-import Link from "next/link"
-import Image from "next/image"
-import { useCart } from "./CartProvider"
+import Image from "next/image";
+import Link from "next/link";
+import { useCart } from "./CartProvider";
 
 export default function CartDrawer() {
-  const { opened, closeCart, items, setQty, removeItem, subtotal } = useCart()
+  const { opened, setOpened, items, setQty, removeItem, subtotal } = useCart();
 
   return (
-    <>
+    <aside
+      className="fixed inset-0 z-50"
+      aria-hidden={!opened}
+      style={{ pointerEvents: opened ? "auto" : "none" }}
+    >
+      {/* backdrop */}
       <div
-        className={`fixed inset-0 z-[60] bg-black/40 transition-opacity ${opened ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}
-        onClick={closeCart}
+        className={`absolute inset-0 bg-black/40 transition-opacity ${
+          opened ? "opacity-100" : "opacity-0"
+        }`}
+        onClick={() => setOpened(false)}
       />
-      <aside
-        className="fixed right-0 top-0 z-[70] h-full w-[92vw] max-w-[420px] bg-white voixe-drawer"
-        data-open={opened ? "true" : "false"}
-        role="dialog"
-        aria-modal="true"
-        aria-label="Your Cart"
+
+      {/* panel (kept right side for simplicity, Supreme vibe styling) */}
+      <div
+        data-open={opened}
+        className={`voixe-drawer absolute right-0 top-0 h-full w-full max-w-[420px] bg-white 
+                    overflow-hidden border-l border-neutral-200`}
       >
-        <div className="flex items-center justify-between h-14 px-5 border-b">
-          <h2 className="text-sm font-medium tracking-wide">Your Cart {items.length ? `(${items.length})` : ''}</h2>
-          <button onClick={closeCart} aria-label="Close cart" className="text-xl leading-none">×</button>
+        {/* header */}
+        <div className="flex items-center justify-between border-b border-dotted border-neutral-300 px-4 py-3">
+          <div className="font-mono text-sm tracking-tight">cart</div>
+          <button
+            onClick={() => setOpened(false)}
+            className="text-neutral-500 hover:text-black"
+            aria-label="Close cart"
+          >
+            ✕
+          </button>
         </div>
 
-        <div className="h-[calc(100%-56px-156px)] overflow-y-auto px-5 py-4">
+        {/* items */}
+        <div className="h-[calc(100%-170px)] overflow-auto px-4">
           {items.length === 0 ? (
-            <div className="flex flex-col items-center justify-center text-center mt-16">
-              <div className="text-5xl mb-3">🛍️</div>
-              <p className="text-sm tracking-wide">No items added</p>
-              <Link href="/shop" onClick={closeCart} className="mt-4 text-xs underline">
-                Shop
-              </Link>
+            <div className="py-10 text-center font-mono text-sm text-neutral-500">
+              0 items in cart
             </div>
           ) : (
-            <div className="space-y-5">
-              {items.map((i) => (
-                <div key={`${i.slug}-${i.size}`} className="flex gap-3 border rounded-2xl p-3">
-                  <div className="w-20 h-24 overflow-hidden rounded-xl">
-                    <Image src={i.image} alt={i.name} width={260} height={320} className="w-full h-full object-cover" />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <p className="text-sm font-medium truncate">{i.name}</p>
-                    <p className="text-xs text-neutral-500">Size: {i.size}</p>
-                    <div className="mt-2 inline-flex items-center rounded-xl border">
-                      <button className="w-8 h-8" onClick={() => setQty(i.slug, i.size, Math.max(1, i.qty - 1))}>−</button>
-                      <span className="w-10 text-center">{i.qty}</span>
-                      <button className="w-8 h-8" onClick={() => setQty(i.slug, i.size, i.qty + 1)}>+</button>
+            <ul className="divide-y divide-dotted divide-neutral-300">
+              {items.map((it, i) => (
+                <li key={`${it.slug}-${i}`} className="py-4">
+                  <div className="grid grid-cols-[80px,1fr,auto] gap-3 items-start">
+                    <div className="h-20 w-20 overflow-hidden border border-dotted border-neutral-300 rounded">
+                      <Image
+                        src={it.image}
+                        alt={it.name}
+                        width={160}
+                        height={160}
+                        className="h-full w-full object-cover"
+                      />
+                    </div>
+
+                    <div className="min-w-0">
+                      <div className="font-mono text-[13px] leading-4">
+                        {it.name}
+                      </div>
+                      {it.size && (
+                        <div className="mt-1 font-mono text-[12px] text-neutral-500">
+                          Size: {it.size}
+                        </div>
+                      )}
+
+                      <div className="mt-2 inline-flex items-center gap-2">
+                        <button
+                          className="h-7 w-7 border border-dotted border-neutral-400 text-sm"
+                          onClick={() => setQty(i, it.qty - 1)}
+                          aria-label="Decrease"
+                        >
+                          −
+                        </button>
+                        <span className="h-7 min-w-[2rem] text-center font-mono text-sm leading-7">
+                          {it.qty}
+                        </span>
+                        <button
+                          className="h-7 w-7 border border-dotted border-neutral-400 text-sm"
+                          onClick={() => setQty(i, it.qty + 1)}
+                          aria-label="Increase"
+                        >
+                          +
+                        </button>
+
+                        <button
+                          className="ml-3 font-mono text-[12px] underline decoration-1 underline-offset-2"
+                          onClick={() => removeItem(i)}
+                        >
+                          remove
+                        </button>
+                      </div>
+                    </div>
+
+                    <div className="text-sm font-mono tabular-nums">
+                      ${ (it.price * it.qty).toFixed(2) }
                     </div>
                   </div>
-                  <div className="text-right">
-                    <p className="text-sm">${(i.price * i.qty).toFixed(2)}</p>
-                    <button onClick={() => removeItem(i.slug, i.size)} className="text-[11px] text-red-600 mt-2">Remove</button>
-                  </div>
-                </div>
+                </li>
               ))}
-            </div>
+            </ul>
           )}
         </div>
 
-        <div className="border-t p-5">
-          <div className="flex justify-between text-sm">
-            <span>Subtotal</span>
+        {/* footer */}
+        <div className="border-t border-dotted border-neutral-300 px-4 py-3">
+          <div className="flex items-center justify-between font-mono text-sm">
+            <span>subtotal:</span>
             <span>${subtotal.toFixed(2)}</span>
           </div>
-          <p className="text-[11px] text-neutral-500 mt-2">Taxes & shipping calculated at checkout.</p>
-          <Link
-            href="/checkout"
-            className={`mt-4 block w-full h-11 rounded-2xl text-center leading-[44px] ${items.length ? 'bg-neutral-900 text-white' : 'bg-neutral-200 text-neutral-500 pointer-events-none'}`}
-            onClick={items.length ? undefined : (e)=>e.preventDefault()}
-          >
-            Checkout
-          </Link>
+
+          <p className="mt-2 font-mono text-[12px] text-red-600">
+            * free shipping on all orders over $250, some exceptions may apply
+          </p>
+
+          <div className="mt-3 flex gap-2">
+            <Link
+              href="/shop"
+              onClick={() => setOpened(false)}
+              className="btn-supreme-black flex-1"
+            >
+              keep shopping
+            </Link>
+            <Link
+              href="/cart"
+              onClick={() => setOpened(false)}
+              className="btn-supreme-red flex-1"
+            >
+              checkout now
+            </Link>
+          </div>
         </div>
-      </aside>
-    </>
-  )
+      </div>
+    </aside>
+  );
 }
