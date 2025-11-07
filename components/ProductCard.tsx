@@ -41,7 +41,6 @@ export default function ProductCard({
         <img src={image} alt={name} />
       </Link>
 
-      {/* non-overlapping size strip */}
       <div className="size-overlay">
         {sizes.map((s) => (
           <button
