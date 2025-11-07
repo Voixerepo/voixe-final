@@ -52,7 +52,7 @@ export default function ProductPage() {
           <h1 className="text-3xl font-medium tracking-tight">{product.name}</h1>
           <p className="mt-2 text-lg text-neutral-700">${product.price.toFixed(2)}</p>
 
-          {/* Size Selection */}
+          {/* Size */}
           <div className="mt-8">
             <div className="uppercase text-xs font-medium text-neutral-600 tracking-wide mb-2">Size</div>
             <div className="flex flex-wrap gap-2">
@@ -72,7 +72,7 @@ export default function ProductPage() {
             </div>
           </div>
 
-          {/* Color Selection */}
+          {/* Color */}
           <div className="mt-6">
             <div className="uppercase text-xs font-medium text-neutral-600 tracking-wide mb-2">Color</div>
             <div className="flex gap-3">
@@ -96,23 +96,13 @@ export default function ProductPage() {
           <div className="mt-6">
             <div className="uppercase text-xs font-medium text-neutral-600 tracking-wide mb-2">Quantity</div>
             <div className="flex items-center border rounded-md w-fit">
-              <button
-                onClick={() => setQty(Math.max(1, qty - 1))}
-                className="px-3 py-2 text-lg leading-none"
-              >
-                −
-              </button>
+              <button onClick={() => setQty(Math.max(1, qty - 1))} className="px-3 py-2 text-lg leading-none">−</button>
               <span className="px-4 py-2 text-sm">{qty}</span>
-              <button
-                onClick={() => setQty(qty + 1)}
-                className="px-3 py-2 text-lg leading-none"
-              >
-                +
-              </button>
+              <button onClick={() => setQty(qty + 1)} className="px-3 py-2 text-lg leading-none">+</button>
             </div>
           </div>
 
-          {/* Add to Cart Button */}
+          {/* Add to cart */}
           <button
             onClick={handleAddToCart}
             className="mt-8 border border-black w-full py-3 text-sm uppercase tracking-wide hover:bg-black hover:text-white transition-all"
