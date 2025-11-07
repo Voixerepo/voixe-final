@@ -11,9 +11,8 @@ export default function Shop() {
   return (
     <main className="page-wrap">
       <Animate as="h1" variant="fade-up">Shop</Animate>
-
       <div className="grid" style={{ marginTop: "1rem" }}>
-        {demo.map((p, idx) => (
+        {demo.map((p) => (
           <ProductCard key={p.slug} {...p} />
         ))}
       </div>
