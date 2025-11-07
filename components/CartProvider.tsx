@@ -56,12 +56,14 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   };
 
   const removeItem = (index: number) => setItems((prev) => prev.filter((_, i) => i !== index));
+
   const setQty = (index: number, qty: number) =>
     setItems((prev) => {
       const clone = [...prev];
       clone[index] = { ...clone[index], qty: Math.max(1, qty) };
       return clone;
     });
+
   const clear = () => setItems([]);
 
   const subtotal = useMemo(() => items.reduce((s, it) => s + it.price * it.qty, 0), [items]);
@@ -70,9 +72,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   const toggleCart = () => setOpened((v) => !v);
 
   return (
-    <CartCtx.Provider
-      value={{ opened, setOpened, toggleCart, items, addItem, removeItem, setQty, clear, subtotal, count }}
-    >
+    <CartCtx.Provider value={{ opened, setOpened, toggleCart, items, addItem, removeItem, setQty, clear, subtotal, count }}>
       {children}
     </CartCtx.Provider>
   );
