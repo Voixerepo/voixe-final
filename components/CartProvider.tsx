@@ -12,12 +12,14 @@ export type CartItem = {
 type CartContextType = {
   opened: boolean;
   setOpened: (v: boolean) => void;
+  toggleCart: () => void;          // <-- added
   items: CartItem[];
   addItem: (item: CartItem) => void;
   removeItem: (index: number) => void;
   setQty: (index: number, qty: number) => void;
   clear: () => void;
   subtotal: number;
+  count: number;                   // <-- added
 };
 
 const CartCtx = createContext<CartContextType | null>(null);
@@ -26,13 +28,15 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   const [opened, setOpened] = useState(false);
   const [items, setItems] = useState<CartItem[]>([]);
 
-  // persist in localStorage
+  // hydrate from localStorage
   useEffect(() => {
     try {
       const raw = localStorage.getItem("voixe_cart");
       if (raw) setItems(JSON.parse(raw));
     } catch {}
   }, []);
+
+  // persist to localStorage
   useEffect(() => {
     try {
       localStorage.setItem("voixe_cart", JSON.stringify(items));
@@ -41,7 +45,6 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
 
   const addItem = (item: CartItem) => {
     setItems((prev) => {
-      // merge same product+size
       const i = prev.findIndex((x) => x.slug === item.slug && x.size === item.size);
       if (i >= 0) {
         const clone = [...prev];
@@ -70,15 +73,24 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     [items]
   );
 
+  const count = useMemo(
+    () => items.reduce((n, it) => n + it.qty, 0),
+    [items]
+  );
+
+  const toggleCart = () => setOpened((v) => !v);
+
   const value: CartContextType = {
     opened,
     setOpened,
+    toggleCart,   // <-- provided
     items,
     addItem,
     removeItem,
     setQty,
     clear,
     subtotal,
+    count,        // <-- provided
   };
 
   return <CartCtx.Provider value={value}>{children}</CartCtx.Provider>;
